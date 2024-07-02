@@ -24,7 +24,7 @@ class Asd extends React.Component {
   };
 
   render() {
-    console.log("Asd component rendered");
+    // console.log("Asd component rendered");
 
     return (
       <div className="asd-list">

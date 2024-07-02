@@ -1,6 +1,8 @@
 import React from "react";
 import Clock, { ClockClass } from "./components/Clock";
 import Asd from "./components/Asd";
+import Form from "./components/Form";
+import Parent from "./components/Parent";
 
 class App extends React.Component {
   constructor(...props) {
@@ -17,17 +19,20 @@ class App extends React.Component {
   };
 
   render() {
-    console.log("App component rendered");
-
     return (
       <div>
-        {/* <h1 id="asdasd">hello</h1> */}
+        {/* <h1 id="asdasd">hello</h1>
         <Asd />
-        <Clock />
+        <Clock
+          isClockClassShown={this.state.showClockClassCpm}
+          showHideClockClassCpm={this.onToggleBtnClick}
+        />
         <button onClick={this.onToggleBtnClick}>
           {this.state.showClockClassCpm ? "Hide" : "Show"}
         </button>
         {this.state.showClockClassCpm && <ClockClass asd={123} />}
+        <Form /> */}
+        <Parent />
       </div>
     );
   }
