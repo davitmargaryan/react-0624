@@ -15,3 +15,28 @@ code {
 .asd-list > p {
   color: red;
 }
+
+.todoWrapper {
+  width: 300px;
+  margin: 0 auto;
+  border: 1px solid black;
+  padding: 10px;
+  text-align: center;
+}
+.todoItem {
+  display: flex;
+  justify-content: space-between;
+  margin: 4px 0;
+}
+.todoItem button {
+  margin: 2px;
+  width: 70px;
+}
+
+.filterWrapper {
+  margin: 8px;
+}
+
+.filterWrapper button {
+  margin: 4px;
+}

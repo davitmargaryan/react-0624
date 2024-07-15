@@ -1,38 +1,98 @@
 import React from "react";
-import Clock, { ClockClass } from "./components/Clock";
-import Asd from "./components/Asd";
-import Form from "./components/Form";
-import Parent from "./components/Parent";
+import Header from "./components/Header";
+import List from "./components/List";
+import Filter from "./components/Filter";
 
 class App extends React.Component {
   constructor(...props) {
     super(...props);
     this.state = {
-      showClockClassCpm: true,
+      todoList: [],
+      filteredList: [],
+      search: "",
+      filter: "All",
     };
   }
 
-  onToggleBtnClick = () => {
-    this.setState({
-      showClockClassCpm: !this.state.showClockClassCpm,
+  componentDidUpdate(props, prevState) {
+    if (prevState.todoList !== this.state.todoList) {
+      //DO FILTERING
+      this.setState((state) => ({
+        filteredList: this.calculateFilteredList(state),
+      }));
+    }
+  }
+
+  calculateFilteredList = (state) => {
+    return state.todoList.filter((item) => {
+      const search = item.name.includes(state.search);
+      switch (state.filter) {
+        case "All":
+          return search;
+        case "Done":
+          return search && item.done;
+        case "Undone":
+          return search && !item.done;
+        default:
+          return true;
+      }
     });
+  };
+
+  addTodo = (item) => {
+    this.setState({
+      todoList: [...this.state.todoList, item],
+    });
+  };
+
+  deleteTodo = (id) => {
+    this.setState({
+      todoList: this.state.todoList.filter((item) => item.id !== id),
+    });
+  };
+
+  toggleTodo = (id) => {
+    this.setState({
+      todoList: this.state.todoList.map((item) =>
+        item.id === id ? { ...item, done: !item.done } : item
+      ),
+    });
+  };
+
+  onFilterChange = (filter) => {
+    this.setState((state) => ({
+      filter,
+    }));
+
+    this.setState((state) => ({
+      filteredList: this.calculateFilteredList(state),
+    }));
+  };
+
+  searchChange = (e) => {
+    this.setState(() => ({
+      search: e.target.value,
+    }));
+    this.setState((state) => ({
+      filteredList: this.calculateFilteredList(state),
+    }));
   };
 
   render() {
     return (
-      <div>
-        {/* <h1 id="asdasd">hello</h1>
-        <Asd />
-        <Clock
-          isClockClassShown={this.state.showClockClassCpm}
-          showHideClockClassCpm={this.onToggleBtnClick}
+      <div className="todoWrapper">
+        <Header addTodo={this.addTodo} />
+        <Filter
+          onFilterChange={this.onFilterChange}
+          search={this.state.search}
+          searchChange={this.searchChange}
+          filter={this.state.filter}
         />
-        <button onClick={this.onToggleBtnClick}>
-          {this.state.showClockClassCpm ? "Hide" : "Show"}
-        </button>
-        {this.state.showClockClassCpm && <ClockClass asd={123} />}
-        <Form /> */}
-        <Parent />
+        <List
+          list={this.state.filteredList}
+          deleteTodo={this.deleteTodo}
+          toggleTodo={this.toggleTodo}
+        />
       </div>
     );
   }
